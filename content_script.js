@@ -42,7 +42,7 @@ if(wrongColors.length>0){
 			$wrongDiv.appendTo($resultDiv);
 			$sortofDiv.appendTo($resultDiv);
 			$resultDiv.appendTo($('body'));
-		$("#result").modal();
+			$("#result").modal();
 	
 
 	
@@ -64,9 +64,12 @@ function analyzeColor(bgColor, fgColor, $element){
 	if(background_RGB.length > 3){
 		while(background_RGB[3] == 0 && background_RGB.length > 3 && $element.prop("tagName")!= "BODY" ){
 			$element = $element.parent();
-			console.log($element.css('backgroundColor'));
 			background_RGB = getRGBarray($element.css('backgroundColor'));
 		}
+		if(background_RGB[0] == 0 && background_RGB[1] == 0 && background_RGB[2] == 0 && background_RGB[3] == 0){
+			background_RGB = getRGBarray("rgb(255,255,255)");
+			bgColor = "rgb(255,255,255)";
+		}else
 		bgColor = $element.css('backgroundColor');
 	}
 
@@ -79,6 +82,7 @@ function analyzeColor(bgColor, fgColor, $element){
 	var bY=((background_RGB[0] * 299) + (background_RGB[1] * 587) + (background_RGB[2] * 114)) / 1000;
 	var fY=((foreground_RGB[0] * 299) + (foreground_RGB[1] * 587) + (foreground_RGB[2] * 114)) / 1000;
 	var brightnessDifference = Math.abs(bY-fY);
+	console.log(brightnessDifference);
 
     var colorDifference = (Math.max (foreground_RGB[0], background_RGB[0]) - Math.min (foreground_RGB[0], background_RGB[0])) +
                           (Math.max (foreground_RGB[1], background_RGB[1]) - Math.min (foreground_RGB[1], background_RGB[1])) +
@@ -94,6 +98,11 @@ function analyzeColor(bgColor, fgColor, $element){
 	}else{
 		cResult = "NO"; // not compliant "Poor visibility between text and background colors."
 	}
+
+	// if(brightnessDifference < brightnessThreshold)
+	// 	cResult = "sort of...";
+	// if(colorDifference < colorThreshold)
+	// 	cResult = "NO";
 	
 	if(cResult == "sort of..." || cResult == "NO"){
 		results[0] = bgColor;
