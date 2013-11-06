@@ -2,7 +2,10 @@ console.log(chrome.extension.getURL("images/x.png"));
 
 if($('#simplemodal-placeholder').length > 0){
 			$("#result").modal.close();
-		}
+}
+if($('#result').length > 0){
+				$('#result').remove();
+}
 
 var wrongColors = [];
 $('body *').each(function(){
@@ -18,9 +21,7 @@ if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $
 });
 if(wrongColors.length>0){
 	console.log(wrongColors);
-	    if($('#result').length > 0){
-				$('#result').remove();
-		}
+	    
 		var $resultDiv = $("<div>", {id: "result", class: "result"});
 		$resultDiv.css({
 			"display" : "none"
