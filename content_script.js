@@ -7,11 +7,11 @@ if($('#simplemodal-placeholder').length > 0){
 var wrongColors = [];
 $('body *').each(function(){
 
-if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT")
+
+if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $(this).prop("tagName")!= "NOSCRIPT")
 {
-	// console.log($(this).prop("tagName")+ " " +$(this).css('backgroundColor'));
-	// console.log("Text color: "+$(this).css('color'));
-	analyzeColor($(this).css('backgroundColor'), $(this).css('color'), $(this));
+	if(textPresent($(this)))
+		analyzeColor($(this).css('backgroundColor'), $(this).css('color'), $(this));
 
 }
 
@@ -82,7 +82,7 @@ function analyzeColor(bgColor, fgColor, $element){
 	var bY=((background_RGB[0] * 299) + (background_RGB[1] * 587) + (background_RGB[2] * 114)) / 1000;
 	var fY=((foreground_RGB[0] * 299) + (foreground_RGB[1] * 587) + (foreground_RGB[2] * 114)) / 1000;
 	var brightnessDifference = Math.abs(bY-fY);
-	console.log(brightnessDifference);
+	
 
     var colorDifference = (Math.max (foreground_RGB[0], background_RGB[0]) - Math.min (foreground_RGB[0], background_RGB[0])) +
                           (Math.max (foreground_RGB[1], background_RGB[1]) - Math.min (foreground_RGB[1], background_RGB[1])) +
@@ -191,4 +191,18 @@ function compareArray(array1, array2) {
         }
     }
     return true;
+}
+//check if elment has text node
+function textPresent ($element){
+	var textPresence = false;
+	var childNode = $element.get(0).childNodes;
+	for (var i = 0; i < childNode.length; i++){
+		if (childNode[i].nodeType == Node.TEXT_NODE && /\S/.test(childNode[i].nodeValue)){
+			textPresence = true;
+			break;
+		}
+
+	}
+
+	return textPresence;
 }
