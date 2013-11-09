@@ -14,10 +14,22 @@
 }
 .wrong {
 	float: left;
+	
 }
 
 .sorta {
 	float: right;
+}
+
+.font_result{
+	text-align: left;
+	float: right;
+}
+
+.font_r{
+	border: 1px solid gray;
+	margin-top: 10px;
+	padding: 5px;
 }
 
 .show{

@@ -1,36 +1,47 @@
 console.log(chrome.extension.getURL("images/x.png"));
 
 if($('#simplemodal-placeholder').length > 0){
-			$("#result").modal.close();
+	$('#result').modal.close();
 }
 if($('#result').length > 0){
-				$('#result').remove();
+	$('#result').remove();
 }
 
 var wrongColors = [];
+var fontSizes = {};
+var fontStyles = {};
+var fontFamilies = {};
+var total = 0;
 $('body *').each(function(){
 
 
 if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $(this).prop("tagName")!= "NOSCRIPT")
 {
-	if(textPresent($(this)))
+	if(textPresent($(this))){
 		analyzeColor($(this).css('backgroundColor'), $(this).css('color'), $(this));
+		analyzeFont($(this).css('font-size'), $(this).css('font-family'), $(this).css('font-style'));
+	}
 
 }
 
 });
+
 if(wrongColors.length>0){
 	console.log(wrongColors);
+	
 	    
 		var $resultDiv = $("<div>", {id: "result", class: "result"});
 		$resultDiv.css({
 			"display" : "none"
 		});
 
-		$resultDiv.html("<h1>Webpage Analysis Report:</h1>");
+		$resultDiv.html("<h2>Webpage Analysis Report:</h2>");
 		var $wrongDiv = $("<div>", {id: "wrong", class: "wrong"});
 		var $sortofDiv = $("<div>", {id: "sorta", class: "sorta"});
-		$wrongDiv.text("Colors NOT compliant");
+		var $fontDiv = fontAnalysis();
+		
+
+		$wrongDiv.html("<h4>Colors NOT compliant</h4>");
 		$sortofDiv.text("Sort of...can be improved");
 		for(var i in wrongColors){
 			var $r = createDiv(wrongColors[i]);
@@ -41,7 +52,8 @@ if(wrongColors.length>0){
 		}
 		
 			$wrongDiv.appendTo($resultDiv);
-			$sortofDiv.appendTo($resultDiv);
+			//$sortofDiv.appendTo($resultDiv);
+			$fontDiv.appendTo($resultDiv);
 			$resultDiv.appendTo($('body'));
 			$("#result").modal();
 	
@@ -58,7 +70,63 @@ function createDiv(wrongColor){
 	});
 	return $resultShow;
 }
+function analyzeFont(fontSize, fontFamily, fontStyle){
+	total++;
+	
+	if (fontSize in fontSizes) {
+		fontSizes[fontSize]++;
+	}else{
+		fontSizes[fontSize] = 1;
+	}
+	
+	if (fontFamily in fontFamilies) {
+		fontFamilies[fontFamily]++;
+	}else{
+		fontFamilies[fontFamily] = 1;
+	}
 
+	if (fontStyle in fontStyles) {
+		fontStyles[fontStyle]++;
+	}else{
+		fontStyles[fontStyle] = 1;
+	}
+
+}
+function fontAnalysis(){
+
+	var $fontDiv = $("<div>", {id: "font_result", class: "font_result"});
+	$fontDiv.html("<h4>Font Analysis</h4>");
+	var $fontSizeDiv = $("<div>", {id: "f_size", class: "font_r"});
+	$fontSizeDiv.text("Font Sizes");
+	var $fontFamDiv = $("<div>", {id: "f_family", class: "font_r"});
+	$fontFamDiv.text("Fonts Used");
+	var $fontStyleDiv = $("<div>", {id: "f_Style", class: "font_r"});
+	$fontStyleDiv.text("Font Styles");
+
+	//Font sizes
+		$fontSizeDiv =  fontResultDisplay(fontSizes, $fontSizeDiv);
+	//Font Families
+	  $fontFamDiv = fontResultDisplay(fontFamilies, $fontFamDiv);
+	//Font Styles
+	  $fontStyleDiv = fontResultDisplay(fontStyles, $fontStyleDiv);
+	  console.log($fontStyleDiv);
+
+	$fontFamDiv.appendTo($fontDiv);
+	$fontSizeDiv.appendTo($fontDiv);
+	$fontStyleDiv.appendTo($fontDiv);
+
+	return $fontDiv;
+}
+function fontResultDisplay(json, $Div){
+	$Div.append('</br>');
+	$.each(json, function(key, val){
+		json[key] = parseFloat(val/total * 100).toFixed(2);
+		$Div.append(document.createTextNode(key + " : " + json[key] + '%'));
+		$Div.append('</br>');
+	});	
+	$Div.append('</br>');
+	return $Div;
+}
 function analyzeColor(bgColor, fgColor, $element){
 	var background_RGB = getRGBarray(bgColor); 
 	//for transparent backgrounds get parent background color
