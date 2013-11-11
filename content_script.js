@@ -1,11 +1,6 @@
 console.log(chrome.extension.getURL("images/x.png"));
 
-if($('#simplemodal-placeholder').length > 0){
-	$('#result').modal.close();
-}
-if($('#result').length > 0){
-	$('#result').remove();
-}
+
 
 var wrongColors = [];
 var fontSizes = {};
@@ -54,8 +49,9 @@ if(wrongColors.length>0){
 			$wrongDiv.appendTo($resultDiv);
 			//$sortofDiv.appendTo($resultDiv);
 			$fontDiv.appendTo($resultDiv);
-			$resultDiv.appendTo($('body'));
-			$("#result").modal();
+			chrome.runtime.sendMessage({result: $resultDiv.html()});
+
+			
 	
 
 	
@@ -109,7 +105,7 @@ function fontAnalysis(){
 	  $fontFamDiv = fontResultDisplay(fontFamilies, $fontFamDiv);
 	//Font Styles
 	  $fontStyleDiv = fontResultDisplay(fontStyles, $fontStyleDiv);
-	  console.log($fontStyleDiv);
+	  //console.log($fontStyleDiv);
 
 	$fontFamDiv.appendTo($fontDiv);
 	$fontSizeDiv.appendTo($fontDiv);

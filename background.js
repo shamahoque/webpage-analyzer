@@ -5,13 +5,35 @@
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
-  console.log('Turning ' + tab.url + ' red!');
+
   	chrome.tabs.executeScript(null, { file: "jquery-1.10.2.min.js",'allFrames' : true }, function() {
     	chrome.tabs.executeScript(null, { 'file': "jquery.simplemodal.1.4.4.min.js", 'allFrames' : true }, function() {
     		chrome.tabs.executeScript(null, { 'file': "content_script.js", 'allFrames' : true })
     	});
 	});
 
-	chrome.tabs.insertCSS(null, {file: "resultPopup.css"});
+	chrome.windows.getCurrent(function(wind) {
+		var maxWidth = window.screen.availWidth - 450;
+		var maxHeight = window.screen.availHeight;
+		var updateInfo = {
+			left: 450,
+			top: 0,
+			width: maxWidth,
+			height: maxHeight
+		};
+	chrome.windows.update(wind.id, updateInfo);});
+	
+	chrome.runtime.onMessage.addListener(
+  		function(request, sender, sendResponse) {
+    		myWindow=window.open('','','width=450,height=700');
+			myWindow.document.write("<head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head>"+request.result);
+			
+			myWindow.focus();
+
+      
+  	});
+
+
 });
+
 
