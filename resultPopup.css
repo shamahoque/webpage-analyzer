@@ -1,13 +1,3 @@
-/*pop up css*/
-
-/* Overlay */
-.simplemodal-overlay {background-color:rgba(0,0,0,0); cursor:wait;}
-
-/* Container */
-.simplemodal-container {height:460px; width:500px; color:black; background-color:#E8E8E8; border:4px solid #444; padding:12px; margin-top: 15px;}
-.simplemodal-container .simplemodal-data {padding:20px; font-size: 14px;}
-.simplemodal-container a.modalCloseImg {background:url('chrome-extension://dcmjlpbnicilolgiigikknheogjgppnb/images/x.png') no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
-.simplemodal-container h3 {color:#484848;}
 
 .result{
 	padding: 20px;

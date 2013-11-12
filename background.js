@@ -1,7 +1,7 @@
 // Copyright (c) 2011 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
+var myWindow;
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
@@ -13,6 +13,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	});
 
 	chrome.windows.getCurrent(function(wind) {
+
 		var maxWidth = window.screen.availWidth - 450;
 		var maxHeight = window.screen.availHeight;
 		var updateInfo = {
@@ -22,16 +23,22 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 			height: maxHeight
 		};
 	chrome.windows.update(wind.id, updateInfo);});
-	
+	//console.log(myWindow);
 	chrome.runtime.onMessage.addListener(
-  		function(request, sender, sendResponse) {
-    		myWindow=window.open('','','width=450,height=700');
-			myWindow.document.write("<head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head>"+request.result);
+  		function popUp(request, sender, sendResponse) {
+  			
+  			
+    		myWindow=window.open('','chromeExtensionWebpageAnalyzerResults','width=450,height=700');
+    		myWindow.document.open();
+			myWindow.document.write("<html><head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head><body>"+request.result+"</body></html>");
 			
 			myWindow.focus();
+			chrome.runtime.onMessage.removeListener(popUp);
 
       
   	});
+
+  	
 
 
 });

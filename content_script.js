@@ -7,6 +7,9 @@ var fontSizes = {};
 var fontStyles = {};
 var fontFamilies = {};
 var total = 0;
+var totalElements = $('body *').length;
+var count=0;
+
 $('body *').each(function(){
 
 
@@ -18,10 +21,10 @@ if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $
 	}
 
 }
-
+	count++;
 });
 
-if(wrongColors.length>0){
+if(count == totalElements){
 	console.log(wrongColors);
 	
 	    
