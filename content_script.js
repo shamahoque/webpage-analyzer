@@ -33,13 +33,13 @@ if(count == totalElements){
 			"display" : "none"
 		});
 
-		$resultDiv.html("<h2>Webpage Analysis Report:</h2>");
+		
 		var $wrongDiv = $("<div>", {id: "wrong", class: "wrong"});
 		var $sortofDiv = $("<div>", {id: "sorta", class: "sorta"});
 		var $fontDiv = fontAnalysis();
 		
 
-		$wrongDiv.html("<h4>Colors NOT compliant</h4>");
+		$wrongDiv.html("<h4>Color & Brightness Issues</h4>");
 		$sortofDiv.text("Sort of...can be improved");
 		for(var i in wrongColors){
 			var $r = createDiv(wrongColors[i]);

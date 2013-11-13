@@ -30,7 +30,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   			
     		myWindow=window.open('','chromeExtensionWebpageAnalyzerResults','width=450,height='+window.screen.availHeight);
     		myWindow.document.open();
-			myWindow.document.write("<html><head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head><body>"+request.result+"</body></html>");
+			myWindow.document.write("<html><head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head><body><h1>Webpage Analysis Report</h1>for <a href='"+tab.url+"'>"+tab.title+"</a> page"+request.result+"</body></html>");
 			
 			myWindow.focus();
 			chrome.runtime.onMessage.removeListener(popUp);
