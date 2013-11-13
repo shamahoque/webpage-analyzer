@@ -1,7 +1,7 @@
 // Copyright (c) 2011 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-var myWindow;
+
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
@@ -28,7 +28,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   		function popUp(request, sender, sendResponse) {
   			
   			
-    		myWindow=window.open('','chromeExtensionWebpageAnalyzerResults','width=450,height=700');
+    		myWindow=window.open('','chromeExtensionWebpageAnalyzerResults','width=450,height='+window.screen.availHeight);
     		myWindow.document.open();
 			myWindow.document.write("<html><head><title>Analysis Report</title><link rel='stylesheet' type='text/css' href='resultPopup.css'></head><body>"+request.result+"</body></html>");
 			
