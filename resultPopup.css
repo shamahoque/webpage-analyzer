@@ -3,7 +3,7 @@
 	padding: 20px;
 }
 .wrong {
-	float: left;
+	
 	
 }
 
@@ -13,20 +13,31 @@
 
 .font_result{
 	text-align: left;
-	float: right;
-	width: 230px;
+	
+	width: 420px;
 }
 
 .font_r{
 	border: 1px solid gray;
 	margin-top: 10px;
 	padding: 5px;
+	font-size: 18px;
 	
 }
 
 .show{
-	border: 1px solid black;
+	border: 1px solid gray;
+	border-radius: 5px;
 	width: 120px;
 	height: 35px;
 	margin-bottom: 5px;
+	margin-right: 8px;
+	display: inline-block;
+	line-height: 35px;
+	text-align: center;
+	
+}
+
+.label{
+	color: #000066;
 }

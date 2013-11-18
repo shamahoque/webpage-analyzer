@@ -103,11 +103,11 @@ function fontAnalysis(){
 	$fontStyleDiv.text("Font Styles");
 
 	//Font sizes
-		$fontSizeDiv =  fontResultDisplay(fontSizes, $fontSizeDiv);
+		$fontSizeDiv =  fontResultDisplay('font-size',fontSizes, $fontSizeDiv);
 	//Font Families
-	  $fontFamDiv = fontResultDisplay(fontFamilies, $fontFamDiv);
+	  $fontFamDiv = fontResultDisplay('font-family', fontFamilies, $fontFamDiv);
 	//Font Styles
-	  $fontStyleDiv = fontResultDisplay(fontStyles, $fontStyleDiv);
+	  $fontStyleDiv = fontResultDisplay('font-style', fontStyles, $fontStyleDiv);
 	  //console.log($fontStyleDiv);
 
 	$fontFamDiv.appendTo($fontDiv);
@@ -116,14 +116,41 @@ function fontAnalysis(){
 
 	return $fontDiv;
 }
-function fontResultDisplay(json, $Div){
+function fontResultDisplay(style_param,json, $Div){
 	$Div.append('</br>');
 	$.each(json, function(key, val){
 		json[key] = parseFloat(val/total * 100).toFixed(2);
-		$Div.append(document.createTextNode(key + " : " + json[key] + '%'));
+		var $textSpan = $("<span>", {class: "label"});
+		if(style_param == "font-family"){
+			$textSpan.css({"font-family" : key});
+		}
+		if(style_param == "font-size"){
+			$textSpan.css({"font-size" : key});
+		}
+		if(style_param == "font-style"){
+			$textSpan.css({"font-style" : key});
+		}
+		var $percentage_block = $('<div>');
+		//$percentage_block.append(document.createTextNode(json[key]));
+		var width_percentage_block = json[key]/100 * 300;
+		if(width_percentage_block < 1){
+			width_percentage_block = 1;
+		}
+		$percentage_block.css({"height" : "16px", 
+			"width": width_percentage_block, 
+			"display" : "inline-block", 
+			"backgroundColor": "gray",
+			"margin-right": "5px",
+			"margin-bottom": "-3px"});
+		
+		$textSpan.append(document.createTextNode(key + " : "));
+		$Div.append($textSpan);
+		$Div.append($percentage_block);
+		$Div.append(document.createTextNode(json[key] + "%"));
+		//$Div.append('</br>');
 		$Div.append('</br>');
 	});	
-	$Div.append('</br>');
+	
 	return $Div;
 }
 function analyzeColor(bgColor, fgColor, $element){
