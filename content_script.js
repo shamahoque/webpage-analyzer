@@ -118,6 +118,7 @@ function fontAnalysis(){
 }
 function fontResultDisplay(style_param,json, $Div){
 	$Div.append('</br>');
+	json = sortResults(json);
 	$.each(json, function(key, val){
 		json[key] = parseFloat(val/total * 100).toFixed(2);
 		var $textSpan = $("<span>", {class: "label"});
@@ -301,3 +302,25 @@ function textPresent ($element){
 
 	return textPresence;
 }
+
+//sort JSON
+
+function sortResults(json){
+	var sortedJSONArray = [];
+	var sortedJSON = {};
+	$.each(json, function(key, value){
+		sortedJSONArray.push({"key" : key, "value" : value});
+	});
+
+	sortedJSONArray.sort(function(a, b){
+	    if (a.value < b.value) return 1;
+	    if (b.value < a.value) return -1;
+	    return 0;
+	});
+	$.each(sortedJSONArray, function(){
+		sortedJSON[this.key] = this.value;
+	});
+	return sortedJSON;
+}
+
+
