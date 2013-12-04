@@ -39,5 +39,7 @@
 }
 
 .label{
+	float: left;
 	color: #000066;
+
 }

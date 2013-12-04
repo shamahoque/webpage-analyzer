@@ -7,9 +7,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
 
   	chrome.tabs.executeScript(null, { file: "jquery-1.10.2.min.js",'allFrames' : true }, function() {
-    	chrome.tabs.executeScript(null, { 'file': "jquery.simplemodal.1.4.4.min.js", 'allFrames' : true }, function() {
     		chrome.tabs.executeScript(null, { 'file': "content_script.js", 'allFrames' : true })
-    	});
 	});
 
 	chrome.windows.getCurrent(function(wind) {
@@ -23,7 +21,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 			height: maxHeight
 		};
 	chrome.windows.update(wind.id, updateInfo);});
-	//console.log(myWindow);
+	
 	chrome.runtime.onMessage.addListener(
   		function popUp(request, sender, sendResponse) {
   			
