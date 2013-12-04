@@ -66,8 +66,6 @@ if(count == totalElements){
 
 			
 	
-
-	
 }
 
 function createDiv(wrongColor){
