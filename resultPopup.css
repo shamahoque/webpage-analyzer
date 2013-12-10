@@ -27,10 +27,10 @@
 }
 
 .section_title:hover {
-	background: linear-gradient(#909090, #909090);
+	background: linear-gradient(#909090, #606060);
 }
 .section_selected{
-	background: linear-gradient(#909090, #909090);
+	background: linear-gradient(#909090, #606060);
 }
 
 .font_r{
