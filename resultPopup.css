@@ -2,19 +2,35 @@
 .result{
 	padding: 20px;
 }
-.wrong {
-	
-	
-}
+
 
 .sorta {
 	float: right;
 }
 
-.font_result{
+.result_section{
 	text-align: left;
-	
-	width: 420px;
+	background-color: white;
+	width: 400px;
+	padding: 8px;
+	border: 1px solid gray;
+	display: none;
+}
+.section_title{
+	cursor: pointer;
+	border: 1px solid grey;
+	border-radius: 5px;
+	padding: 7px;
+	background: linear-gradient(white, #C0C0C0);
+	-webkit-margin-after: 0em;
+	width: 402px;
+}
+
+.section_title:hover {
+	background: linear-gradient(#909090, #909090);
+}
+.section_selected{
+	background: linear-gradient(#909090, #909090);
 }
 
 .font_r{
@@ -28,7 +44,6 @@
 
 .show{
 	border: 1px solid gray;
-	border-radius: 5px;
 	width: 120px;
 	height: 35px;
 	margin-bottom: 5px;
@@ -43,4 +58,8 @@
 	float: left;
 	color: #000066;
 
+}
+
+body {
+	background-color: #F0F0F0;
 }

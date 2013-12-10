@@ -41,12 +41,11 @@ if(count == totalElements){
 		});
 
 		
-		var $wrongDiv = $("<div>", {id: "wrong", class: "wrong"});
+		var $wrongDiv = $("<div>", {id: "wrongColor", class: "result_section"});
 		var $sortofDiv = $("<div>", {id: "sorta", class: "sorta"});
 		var $fontDiv = fontAnalysis();
 		var $altTextDiv = altTextResults();
 
-		$wrongDiv.html("<h4>Color & Brightness Issues</h4>");
 		$sortofDiv.text("Sort of...can be improved");
 		for(var i in wrongColors){
 			var $r = createDiv(wrongColors[i]);
@@ -57,10 +56,22 @@ if(count == totalElements){
 		}
 		
 		
+		var $colorTitle = $("<h4>", {id : "colorTitle", class: "section_title"});
+		$colorTitle.html("Color & Brightness Issues");
+		$colorTitle.appendTo($resultDiv);
 
 			$wrongDiv.appendTo($resultDiv);
-			//$sortofDiv.appendTo($resultDiv);
+
+		var $fontTitle = $("<h4>", {id : "fontTitle", class: "section_title"});
+		$fontTitle.html("Font Analysis");
+		$fontTitle.appendTo($resultDiv);
+			
 			$fontDiv.appendTo($resultDiv);
+
+		var $altTextTitle = $("<h4>", {id : "altTextTitle", class: "section_title"});
+		$altTextTitle.html("Alternate Text for image and input elements");
+		$altTextTitle.appendTo($resultDiv);
+
 			$altTextDiv.appendTo($resultDiv);
 			chrome.runtime.sendMessage({result: $resultDiv.html()});
 
@@ -77,8 +88,7 @@ function createDiv(wrongColor){
 	});
 	return $resultShow;
 }
-//var totalInputImageTags = 0;
-//var totalTagsWithAlt = 0;
+
 
 function analyzeAltText($element){
 	if($element.prop("tagName") == "IMG"){
@@ -96,8 +106,7 @@ function analyzeAltText($element){
 function altTextResults(){
 	//TO-DO: refactor code
 
-	var $altTextDiv = $("<div>", {id: "altText_result", class: "font_result"});
-	$altTextDiv.html("<h4>Alternate Text for image and input elements</h4>");
+	var $altTextDiv = $("<div>", {id: "altText_result", class: "result_section"});
 	var $imageTagDiv = $("<div>", {id: "image_tag", class: "font_r"});
 	$imageTagDiv.text("Image Elements with Alt Text");
 	var $inputTagDiv = $("<div>", {id: "input_tag", class: "font_r"});
@@ -106,7 +115,7 @@ function altTextResults(){
 	//var $textSpanImage = $("<span>", {class: "label"});
 	var $percentage_blockImage = $('<div>');
 		var percentageAltText = parseFloat(totalImageTagsWithAlt/totalImageTags * 100).toFixed(1);
-		var width_percentage_block = (percentageAltText/100) * 250;
+		var width_percentage_block = (percentageAltText/100) * 140;
 		console.log(totalImageTagsWithAlt + " " + totalImageTags);
 		if(width_percentage_block < 1){
 			width_percentage_block = 1;
@@ -124,7 +133,7 @@ function altTextResults(){
 
 	var $percentage_blockInput = $('<div>');
 		percentageAltText = parseFloat(totalInputTagsWithAlt/totalInputTags * 100).toFixed(1);
-		width_percentage_block = (percentageAltText/100) * 250;
+		width_percentage_block = (percentageAltText/100) * 140;
 		
 		if(width_percentage_block < 1){
 			width_percentage_block = 1;
@@ -172,8 +181,8 @@ function analyzeFont(fontSize, fontFamily, fontStyle){
 }
 function fontAnalysis(){
 
-	var $fontDiv = $("<div>", {id: "font_result", class: "font_result"});
-	$fontDiv.html("<h4>Font Analysis</h4>");
+	var $fontDiv = $("<div>", {id: "font_result", class: "result_section"});
+
 	var $fontSizeDiv = $("<div>", {id: "f_size", class: "font_r"});
 	$fontSizeDiv.text("Font Sizes");
 	var $fontFamDiv = $("<div>", {id: "f_family", class: "font_r"});
@@ -226,7 +235,7 @@ function fontResultDisplay(style_param,json, $Div){
 		}
 		var $percentage_block = $('<div>');
 		//$percentage_block.append(document.createTextNode(json[key]));
-		var width_percentage_block = json[key]/100 * 250;
+		var width_percentage_block = json[key]/100 * 220;
 		if(width_percentage_block < 1){
 			width_percentage_block = 1;
 		}
@@ -235,10 +244,10 @@ function fontResultDisplay(style_param,json, $Div){
 			"display" : "inline-block", 
 			"backgroundColor": "gray",
 			"margin-right": "5px",
-			"margin-bottom": "-3px"});
+			"margin-bottom": "-3px","vertical-align":"middle"});
 		
 		var $resultLine = $("<div>");
-		$resultLine.css({"height" : resultLineHeight});
+		$resultLine.css({"height" : resultLineHeight, "line-height": resultLineHeight});
 		
 		$resultLine.append($textSpan);
 		if(smallFont){
@@ -247,7 +256,7 @@ function fontResultDisplay(style_param,json, $Div){
 			var label = key;	
 		$textSpan.append(document.createTextNode(label));
 		if(style_param != "font-family"){
-			$textSpan.css({"width": "80px"});
+			$textSpan.css({"min-width": "80px"});
 			$textSpan.append(document.createTextNode(" : "));
 			$resultLine.append($percentage_block);
 			$resultLine.append(document.createTextNode(json[key] + "%"));
