@@ -115,7 +115,7 @@ function altTextResults(){
 	//var $textSpanImage = $("<span>", {class: "label"});
 	var $percentage_blockImage = $('<div>');
 		var percentageAltText = parseFloat(totalImageTagsWithAlt/totalImageTags * 100).toFixed(1);
-		var width_percentage_block = (percentageAltText/100) * 140;
+		var width_percentage_block = (percentageAltText/100) * 100;
 		console.log(totalImageTagsWithAlt + " " + totalImageTags);
 		if(width_percentage_block < 1){
 			width_percentage_block = 1;
