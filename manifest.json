@@ -16,7 +16,7 @@
     },
     "default_title": "Analyze this web page"
   },
-  "web_accessible_resources": ["images/x.png"], 
+  "web_accessible_resources": ["images/triangle.png"], 
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",

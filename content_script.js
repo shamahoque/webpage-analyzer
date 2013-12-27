@@ -41,7 +41,7 @@ if(count == totalElements){
 		});
 
 		
-		var $wrongDiv = $("<div>", {id: "wrongColor", class: "result_section"});
+		var $wrongDiv = $("<div>", {id: "wrongColor", class: "result_section_color"});
 		var $sortofDiv = $("<div>", {id: "sorta", class: "sorta"});
 		var $fontDiv = fontAnalysis();
 		var $altTextDiv = altTextResults();
@@ -56,20 +56,20 @@ if(count == totalElements){
 		}
 		
 		
-		var $colorTitle = $("<h4>", {id : "colorTitle", class: "section_title"});
-		$colorTitle.html("Color & Brightness Issues");
+		var $colorTitle = $("<h4>", {id : "colorTitle", class: "section_title section_selected"});
+		$colorTitle.html("<img class='triangle' src='images/triangle.png'>&nbsp;&nbsp;Color & Brightness Issues");
 		$colorTitle.appendTo($resultDiv);
 
 			$wrongDiv.appendTo($resultDiv);
 
 		var $fontTitle = $("<h4>", {id : "fontTitle", class: "section_title"});
-		$fontTitle.html("Font Analysis");
+		$fontTitle.html("<img class='triangle' src='images/triangle.png'>&nbsp;&nbsp;Font Analysis");
 		$fontTitle.appendTo($resultDiv);
 			
 			$fontDiv.appendTo($resultDiv);
 
 		var $altTextTitle = $("<h4>", {id : "altTextTitle", class: "section_title"});
-		$altTextTitle.html("Alternate Text for image and input elements");
+		$altTextTitle.html("<img class='triangle' src='images/triangle.png'>&nbsp;&nbsp;Alternate Text for image and input elements");
 		$altTextTitle.appendTo($resultDiv);
 
 			$altTextDiv.appendTo($resultDiv);
