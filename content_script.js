@@ -11,8 +11,11 @@ var totalInputTags = 0;
 var totalInputTagsWithAlt = 0;
 var totalImageTags = 0;
 var totalImageTagsWithAlt = 0;
+var test_i=0;
 console.log(totalElements);
 
+
+//loop through all elements in the html body to perform analysis
 $('body *').each(function(){
 
 
@@ -31,7 +34,9 @@ if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $
 
 	count++;
 });
+console.log(wrongColors);
 
+//Once all elements have been analyzed, draw the result sections.
 if(count == totalElements){
 	
 	    
@@ -79,16 +84,6 @@ if(count == totalElements){
 	
 }
 
-function createDiv(wrongColor){
-	var $resultShow = $("<div>", {class: "show"});
-	$resultShow.text("Text Color");
-	$resultShow.css({
-		"backgroundColor" : wrongColor[0],
-		"color" : wrongColor[1]
-	});
-	return $resultShow;
-}
-
 
 function analyzeAltText($element){
 	if($element.prop("tagName") == "IMG"){
@@ -96,7 +91,7 @@ function analyzeAltText($element){
 		if($element.attr('alt'))
 			totalImageTagsWithAlt++;
 	}
-	console.log($element.prop("tagName"));
+	//console.log($element.prop("tagName"));
 	if($element.prop("tagName") == "INPUT"){
 		totalInputTags++;
 		if($element.attr('alt'))
@@ -269,19 +264,36 @@ function fontResultDisplay(style_param,json, $Div){
 	
 	return $Div;
 }
+
+//create the Color Issue divs for the color analysis section
+function createDiv(wrongColor){
+	var $resultShow = $("<div>", {class: "show"});
+	$resultShow.text("Text Color");
+	$resultShow.css({
+		"backgroundColor" : wrongColor[0],
+		"color" : wrongColor[1]
+	});
+	return $resultShow;
+}
+
+//Color analysis 
 function analyzeColor(bgColor, fgColor, $element){
 	var background_RGB = getRGBarray(bgColor); 
+	var $parent_element=$element;
+	console.log(fgColor);
 	//for transparent backgrounds get parent background color
-	if(background_RGB.length > 3){
-		while(background_RGB[3] == 0 && background_RGB.length > 3 && $element.prop("tagName")!= "BODY" ){
-			$element = $element.parent();
-			background_RGB = getRGBarray($element.css('backgroundColor'));
+	if(bgColor == "rgba(0, 0, 0, 0)"){
+		while(background_RGB[3] == 0 && background_RGB.length > 3 && $parent_element.prop("tagName")!= "BODY" ){
+			$parent_element = $parent_element.parent();
+			//console.log($parent_element);
+			background_RGB = getRGBarray($parent_element.css('backgroundColor'));
 		}
+		//console.log("Loop return" + $parent_element);
 		if(background_RGB[0] == 0 && background_RGB[1] == 0 && background_RGB[2] == 0 && background_RGB[3] == 0){
 			background_RGB = getRGBarray("rgb(255,255,255)");
 			bgColor = "rgb(255,255,255)";
 		}else
-		bgColor = $element.css('backgroundColor');
+		bgColor = $parent_element.css('backgroundColor');
 	}
 
 	var foreground_RGB = getRGBarray(fgColor); 
@@ -315,11 +327,17 @@ function analyzeColor(bgColor, fgColor, $element){
 	// if(colorDifference < colorThreshold)
 	// 	cResult = "NO";
 	
-	if(cResult == "sort of..." || cResult == "NO"){
+	if(cResult == "NO"){
 		results[0] = bgColor;
 		results[1] = fgColor;
 		results[2] = cResult;
+		
 	}
+	//Show border around wrong colors
+	// if(cResult == "NO"){
+	// 	$element.css('border','5px solid red');
+		
+	// }
 	
 	if(results.length > 0){
 		var match = false;
@@ -332,9 +350,11 @@ function analyzeColor(bgColor, fgColor, $element){
 			}
 		}
 		if(!match){
+			test_i++;
 			wrongColors.push(results);
 		}
 	}
+	
 	
 	
 	
@@ -403,12 +423,14 @@ function compareArray(array1, array2) {
     }
     return true;
 }
+
 //check if elment has text node
 function textPresent ($element){
 	var textPresence = false;
 	var childNode = $element.get(0).childNodes;
 	for (var i = 0; i < childNode.length; i++){
 		if (childNode[i].nodeType == Node.TEXT_NODE && /\S/.test(childNode[i].nodeValue)){
+			console.log(childNode[i]);
 			textPresence = true;
 			break;
 		}
@@ -418,7 +440,7 @@ function textPresent ($element){
 	return textPresence;
 }
 
-//sort JSON
+//sort JSON - used for sorting font analysis results by font-size
 
 function sortResults(json){
 	var sortedJSONArray = [];

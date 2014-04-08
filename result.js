@@ -1,4 +1,4 @@
-
+//Report section toggle behaviour on selection
 $("#colorTitle").click(function(){
   $("#wrongColor").toggle();
   $("#colorTitle").toggleClass("section_selected");
