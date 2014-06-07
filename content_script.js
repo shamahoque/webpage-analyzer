@@ -12,7 +12,6 @@ var totalInputTagsWithAlt = 0;
 var totalImageTags = 0;
 var totalImageTagsWithAlt = 0;
 var test_i=0;
-console.log(totalElements);
 
 
 //loop through all elements in the html body to perform analysis
@@ -36,7 +35,7 @@ if($(this).prop("tagName")!= "IFRAME" && $(this).prop("tagName")!= "SCRIPT" && $
 });
 console.log(wrongColors);
 
-//Once all elements have been analyzed, draw the result sections.
+//Once all elements have been analyzed, draw the result sections in the Results window.
 if(count == totalElements){
 	
 	    
@@ -84,20 +83,26 @@ if(count == totalElements){
 	
 }
 
-
+/**
+* Count total Img and input tags with alt attributes
+*/
 function analyzeAltText($element){
 	if($element.prop("tagName") == "IMG"){
 		totalImageTags++;
 		if($element.attr('alt'))
 			totalImageTagsWithAlt++;
 	}
-	//console.log($element.prop("tagName"));
+
 	if($element.prop("tagName") == "INPUT"){
 		totalInputTags++;
 		if($element.attr('alt'))
 			totalInputTagsWithAlt++;
 	}
 }
+
+/**
+* Calculate percentage and draw the elements for the Alt text result block
+*/
 function altTextResults(){
 	//TO-DO: refactor code
 
@@ -152,6 +157,9 @@ function altTextResults(){
 	return $altTextDiv;
 
 }
+/**
+* Keep count of usage of each font size, style and family used
+*/
 function analyzeFont(fontSize, fontFamily, fontStyle){
 	total++;
 	
@@ -174,6 +182,10 @@ function analyzeFont(fontSize, fontFamily, fontStyle){
 	}
 
 }
+
+/**
+* Append the elements for the Font analysis result block
+**/
 function fontAnalysis(){
 
 	var $fontDiv = $("<div>", {id: "font_result", class: "result_section"});
@@ -200,6 +212,10 @@ function fontAnalysis(){
 
 	return $fontDiv;
 }
+
+/**
+* Calculate percentage and draw the result elements for font size, style, family
+**/
 function fontResultDisplay(style_param,json, $Div){
 	var smallFont = false;
 	$Div.append('</br>');
@@ -276,7 +292,9 @@ function createDiv(wrongColor){
 	return $resultShow;
 }
 
-//Color analysis 
+/**
+* Color analysis using WCAG2 Guidelines
+**/ 
 function analyzeColor(bgColor, fgColor, $element){
 	var background_RGB = getRGBarray(bgColor); 
 	var $parent_element=$element;
@@ -358,27 +376,29 @@ function analyzeColor(bgColor, fgColor, $element){
 	
 	
 	
-	var ratio = 1;
-	var l1 = getLuminance([foreground_RGB[0]/255, foreground_RGB[1]/255, foreground_RGB[2]/255]);
-	var l2 = getLuminance([background_RGB[0]/255, background_RGB[1]/255, background_RGB[2]/255]);
+	// var ratio = 1;
+	// var l1 = getLuminance([foreground_RGB[0]/255, foreground_RGB[1]/255, foreground_RGB[2]/255]);
+	// var l2 = getLuminance([background_RGB[0]/255, background_RGB[1]/255, background_RGB[2]/255]);
 
-	if (l1 >= l2) {
-		ratio = (l1 + .05) / (l2 + .05);
-	} else {
-		ratio = (l2 + .05) / (l1 + .05);
-	}
-	ratio = Math.round(ratio * 100) / 100; // round to 2 decimal places
-	var contrastratio = ratio;
-	var w2b = (ratio >= 4.5 ? 'YES' : 'NO');
-	var w2a = (ratio >= 3 ? 'YES' : 'NO');
-	var w2aaab = (ratio >= 7 ? 'YES' : 'NO');
-	var w2aaaa = (ratio >= 4.5 ? 'YES' : 'NO');
+	// if (l1 >= l2) {
+	// 	ratio = (l1 + .05) / (l2 + .05);
+	// } else {
+	// 	ratio = (l2 + .05) / (l1 + .05);
+	// }
+	// ratio = Math.round(ratio * 100) / 100; // round to 2 decimal places
+	// var contrastratio = ratio;
+	// var w2b = (ratio >= 4.5 ? 'YES' : 'NO');
+	// var w2a = (ratio >= 3 ? 'YES' : 'NO');
+	// var w2aaab = (ratio >= 7 ? 'YES' : 'NO');
+	// var w2aaaa = (ratio >= 4.5 ? 'YES' : 'NO');
 
 
 }
 
-// perform math for WCAG2
-	function getLuminance (rgb){
+/** 
+* Luminance calculation for WCAG2
+**/
+function getLuminance (rgb){
 			
 		for (var i =0; i<rgb.length; i++) {
 			if (rgb[i] <= 0.03928) {
@@ -391,6 +411,9 @@ function analyzeColor(bgColor, fgColor, $element){
 		return l;
 	};
 
+/** 
+* Utility function for creating RCG array from string
+**/
 function getRGBarray(color){
 	var rgb = color.match(/\d+/g);
 	var rgbArray = [];
@@ -400,6 +423,9 @@ function getRGBarray(color){
 	return rgbArray;
 }
 
+/** 
+* Utility function for comparing two arrays for equality
+**/
 function compareArray(array1, array2) {
     // if the other array is a falsy value, return
     if (!array2)
@@ -424,7 +450,10 @@ function compareArray(array1, array2) {
     return true;
 }
 
-//check if elment has text node
+/** 
+* Check if an element has text node 
+*	(used to make sure only elements with text are considered for color analysis)
+**/
 function textPresent ($element){
 	var textPresence = false;
 	var childNode = $element.get(0).childNodes;
@@ -440,8 +469,10 @@ function textPresent ($element){
 	return textPresence;
 }
 
-//sort JSON - used for sorting font analysis results by font-size
 
+/** 
+* Utility function for sorting JSON - used for sorting font analysis results by font-size
+**/
 function sortResults(json){
 	var sortedJSONArray = [];
 	var sortedJSON = {};
@@ -460,6 +491,9 @@ function sortResults(json){
 	return sortedJSON;
 }
 
+/** 
+* Utility function for getting numeric value of font-size
+**/
 function fontSizeValue(key){
 	return parseInt(/(\d+)px/.exec(key));
 }
